@@ -1,0 +1,74 @@
+{% extends "main.html" %}
+{% block content %}
+<section class="section">
+    <div class="content">
+        <div class="field">
+            <h1 class="has-text-centered-mobile is-uppercase has-text-weight-bold is-size-3">USUŃ KONTO</h1>
+            <form method="POST" action="">
+                {{form.hidden_tag()}}
+                {% if form.email.errors %}
+            <p class="control has-icons-left has-icons-right has-text-danger">
+              {{ form.email(class="input", placeholder="Email")}}
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              
+            </p>
+            {% for error in form.email.errors %}
+                <span><strong class="has-text-danger">{{ error }}</strong></span>
+              {% endfor %}
+            {% else %}
+            <p class="control has-icons-left has-icons-right">
+                {{ form.email(class="input", placeholder="Email")}}
+                <span class="icon is-small is-left">
+                  <i class="fas fa-envelope"></i>
+                </span>
+            {% endif %}
+          </div>
+          <div class="field">
+            {% if form.password.errors %}
+            <p class="control has-icons-left">
+                {{ form.password(class="input", placeholder="Hasło")}}
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+            {% for error in form.password.errors %}
+                <span><strong class="has-text-danger">{{ error }}</strong></span>
+            {% endfor %}
+            {% else %}
+            <p class="control has-icons-left has-icons-right">
+                {{ form.password(class="input", placeholder="Hasło")}}
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+            {% endif %}
+          </div>
+          <div class="field">
+            {% if form.confirm_password.errors %}
+            <p class="control has-icons-left">
+                {{ form.confirm_password(class="input", placeholder="Powtórz hasło")}}
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+            {% for error in form.confirm_password.errors %}
+                <span><strong class="has-text-danger">{{ error }}</strong></span>
+            {% endfor %}
+            {% else %}
+            <p class="control has-icons-left has-icons-right">
+                {{ form.confirm_password(class="input", placeholder="Powtórz hasło")}}
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+            {% endif %}
+            </p>
+            </div>
+            {{ form.submit(class="button is-danger",type="submit")}}
+            {%if error%}
+            <p><strong class="has-text-danger">{{ error }}</strong></p>
+            {%endif%}
+    </div>
+</section>
+
+{%endblock content%}

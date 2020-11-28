@@ -1,0 +1,25 @@
+{% extends "main.html" %}
+{% block content %}
+<section class="section has-background-info-light">
+    <div class="container">
+        <form method="POST" action="{{ url_for('LinkAdvanceConverter.add_short_link') }}">
+            {{form.hidden_tag()}}
+            <div class="field">
+
+                <label class="label">Wklej swój link</label>
+                <div class="control">
+                    {{form.url(class="input", placeholder="np. https://www.google.com/")}}
+                </div>
+
+            </div>
+            {%if error%}
+            <p><strong class="has-text-danger">{{ error }}</strong></p>
+            {%endif%}
+            <div class="control">
+                {{form.submit(class="button is-info",type="submit")}}
+            </div>
+
+        </form>
+    </div>
+</section>
+{%endblock content%}

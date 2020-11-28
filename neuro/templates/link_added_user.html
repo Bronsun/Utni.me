@@ -1,0 +1,23 @@
+
+{% extends "main.html" %}
+{% block content %}
+
+  <section class="section has-background-info-light">
+    <div class="container">
+            <div class="field">
+                <label class="label">Stary link</label>
+                <div class="control">
+                    <input class="input" type="text" name="original_url" value="{{ original_url }}">
+                </div>
+            </div>
+            <div class="field">
+                    <label class="label">Skrócony link</label>
+                    <div class="control">
+                        <input class="input" type="text" name="original_url" value="{{ url_for('LinkAdvanceConverter.redirect_to_short_url', short_url=new_link, _external=True) }}">
+                    </div>
+            </div>
+    </div>
+  </section>
+ 
+
+{% endblock content %}

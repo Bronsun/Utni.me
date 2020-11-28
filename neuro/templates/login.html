@@ -1,0 +1,49 @@
+{% extends "main.html" %}
+{% block content %}
+
+<section class="section has-background-info-light">
+    <div class="container">
+        
+        <div class="field">
+            <h1 class="has-text-centered-mobile is-uppercase has-text-weight-bold is-size-3">Zaloguj się</h1>
+            <form method="POST" action="">
+                {{form.hidden_tag()}}
+            <p class="control has-icons-left has-icons-right">
+              {{ form.email(class="input", placeholder="Email")}}
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control has-icons-left">
+                {{ form.password(class="input", placeholder="Hasło")}}
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+            {% if error %}
+            <p><strong class="has-text-danger">{{ error }}</strong></p>
+            {%endif%}
+          </div>
+          
+          <div class="field">
+          <label class="checkbox">
+            {{ form.remember(type="checkbox") }}
+         <strong class="has-text-dark">   {{ form.remember.label() }}</strong>
+        </label></div>
+        <div class="field">
+            <a class="has-text-primary-dark is-hoverable" href="/">Zapomniałem hasła</a>
+        </div>
+        {{ form.submit(class="button is-info",type="submit")}}
+        </form>
+        <!---->
+        
+</div>
+</section>
+
+
+{% endblock content %}

@@ -1,0 +1,35 @@
+
+{% extends "main.html" %}
+{% block content %}
+
+  <section class="section has-background-info-light">
+    <div class="container">
+            <div class="field">
+                <label class="label">Stary link</label>
+                <div class="control">
+                    <input class="input" type="text" name="original_url" value="{{ original_url }}">
+                </div>
+            </div>
+            <div class="field">
+                    <label class="label">Skrócony link</label>
+                    <div class="control">
+                        <input class="input" type="text" name="original_url" value="{{ url_for('LinkConvBasic.redirect_to_url', short_url=new_link, _external=True) }}">
+                    </div>
+            </div>
+    </div>
+  </section>
+  <section class="section">
+    {% if current_user.is_authenticated %}
+    <div class="container has-text-centered">
+      <p class="title is-3">Przejdź do swojego konta aby skracać więcej linków</p>
+      <a class="button is-danger">Moje linki</a>
+    </div>
+    {% else %}
+    <div class="container has-text-centered">
+      <p class="title is-3">Chcesz skracać swoje adresy szybciej? Dzieli Cię tylko jedno kliknięcie!</p>
+      <a class="button is-danger">Zarejestruj się już dziś</a>
+    </div>
+    {%endif%}
+  </section>
+
+{% endblock content %}

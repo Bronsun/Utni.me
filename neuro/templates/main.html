@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Utnij mnie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.css') }}">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="{{url_for('static', filename='js/hamburger.js')}}"></script>
+    
+    <script type="text/javascript" src="//www.termsfeed.com/public/cookie-consent/3.1.0/cookie-consent.js"></script>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function () {
+      cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","language":"pl"});
+      });
+      </script>
+      
+      <noscript>Cookie Consent by <a href="https://www.TermsFeed.com/" rel="nofollow noopener">TermsFeed</a></noscript>
+
+      <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}" type="image/x-icon">
+      <link rel="icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}" type="image/x-icon">
+      {{ dropzone.load_css()}}
+      {{ dropzone.style('border: 2px dashed #0087F7; margin: 10%; min-height: 400px;') }}
+
+
+</head>
+
+<body>
+  <section class="section"></section>
+    <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+              <img src="static/favicon/logo2.png" width="60" height="30">
+            </a>
+            <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="menu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
+        
+        
+        
+        <div id="menu" class="navbar-menu">
+            <div class="navbar-start">
+              {% if current_user.is_authenticated %}
+                <a class="navbar-item" href="/">Menu</a>
+              {% else %}
+                <a class="navbar-item" href="/">Strona główna</a>
+                {%endif%}
+                <a class="navbar-item" href="/main_pdf">PDF Konwerter</a>
+                <a class="navbar-item" href="/">Ciekawe strony</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">Więcej</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item">
+                          O projekcie
+                        </a>
+                        <a class="navbar-item">
+                          Kontakt
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                          Zgłoś problem
+                        </a>
+                        <a class="navbar-item">
+                            Regulamin
+                        </a>
+                </div>    
+            </div>
+        </div>
+        
+
+        <div class="navbar-end">
+          {% if current_user.is_authenticated %}
+          <div class="navbar-item">
+          <i class="fas fa-user"></i></div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">Moje konto</a>
+            <div class="navbar-dropdown">
+                <a class="navbar-item" href="/links">
+                  Moje linki
+                </a>
+                <a class="navbar-item">
+                  Statystki
+                </a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" href="/account">
+                  Konto
+                </a>
+                <a class="navbar-item has-text-danger" href='/logout'>
+                  Wyloguj się
+                </a>         
+        </div>    
+      </div>
+      <div class="navbar-item">
+      <div class="buttons">
+      <a class="button is-danger"><strong>Wesprzyj nas</strong></a></div></div>
+      {% else %}
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-danger"><strong>Wesprzyj nas</strong></a>
+                <a class="button is-info" href="/register">
+                  <strong>Zarejestruj się</strong>
+                </a>
+                <a class="button is-light" href="/login">
+                  Zaloguj się
+                </a>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      
+
+    </nav>
+    {% block content %}
+    {% if current_user.is_authenticated %}
+    <section class="section has-background-info-light">
+      <div class="container">
+        <p class="title has-text-centered">Wybierz jak chcesz skrócić swój link</p>
+      <div class="buttons is-centered"> 
+      <a class="button is-info" href="/add_short_link">Skróć adres</a>
+      <a class="button is-primary" href="/customURL">Własna nazwa linku</a>
+      </div>
+      <div class="buttons is-centered">
+        <a class="button is-info">Statystki</a>
+        <a class="button is-info" href="/links"> Adresy</a>
+        <a class="button is-danger" href="/logout">Wyloguj się</a>
+
+      </div>
+      </div>
+    </section>
+    <section class="section has-background-white">
+      <div class="container">
+        <p class="title has-text-centered">Chcesz mieć unikatowy link? Skontaktuj się z nami a Ci pomożemy ! </p>
+        <div class="buttons is-centered">
+        <a class="button is-primary" href="/contact">Kontakt</a></div>
+    </section>
+
+ {%else%}
+
+    <section class="section has-background-info-light">
+        <div class="container">
+            <form method="POST" action="{{ url_for('LinkConvBasic.add_link') }}">
+                <div class="field">
+                    <label class="label">Wklej swój link</label>
+                    <div class="control">
+                        <input class="input" type="text" name="original_url" placeholder="np. https://www.google.com/">
+                    </div>
+
+                </div>
+                {%if error%}
+                <p><strong class="has-text-danger">{{ error }}</strong></p>
+                {%endif%}
+                <div class="control">
+                    <button type="submit" class="button is-info">Skróć go !</button>
+                </div>
+
+            </form>
+        </div>
+    </section>
+    
+    <section class="section has-background-white">
+      <div class="container">
+        <div class="level">
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Skrócone linki</p>
+            <p class="title">{{link}}</p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Użytkownicy</p>
+            <p class="title">{{users}}</p>
+          </div>
+          <div class="level-item has-text-right">
+            <div>
+              <p class="heading">Adres IP</p>
+              <p class="title">{{x}}</p>
+            </div>
+        </div>
+       </div>
+        
+    </div>
+  </div>
+    </section>
+    <section class="section has-background-info-light">
+      <div class="container">
+        <div class="tile is-ancestor">
+          <div class="tile is-vertical is-8">
+            <div class="tile">
+              <div class="tile is-parent is-vertical">
+                <article class="tile is-child notification is-primary">
+                  <p class="title">Zarejestruj się</p>
+                  <p class="subtitle">I miej dostęp do większych możliwości</p>
+                </article>
+                <article class="tile is-child notification is-warning">
+                  <p class="title">Więcej za tak mało</p>
+                  <p class="subtitle">Posiadasz dużo linków, które chcesz skrócić? U nas zrobisz to za jednym kliknięciem. Zarejestruj się juz dziś</p>
+                </article>
+              </div>
+              <div class="tile is-parent">
+                <article class="tile is-child notification is-info">
+                  <p class="title">W ofercie także obróbka PDF</p>
+                  <p class="subtitle">Złącz,rozdziel,obróć, zaszyfruj swojego PDFa </p>
+                  <figure class="image is-4by4">
+                    <img src="static/favicon/PDF.png">
+                  </figure>
+                  <br>
+                  <div class="content">
+                  <a class="button is-primary">Sprawdź</a></div>
+                </article>
+              </div>
+            </div>
+            <div class="tile is-parent">
+              <article class="tile is-child notification is-danger">
+                <p class="title">Wesprzyj nas juz dziś</p>
+                <p class="subtitle">Parę złotych na nasz drobny  projekt</p>
+                <div class="content">
+                  Staramy się dostarczać Państwu produkty najwyższej jakości. Do tego niestety potrzebne są pieniądze. Drobna darowizna na pewno nam pomoże a my będziemy mogli tworzyć lepsze jutro.
+                </div>
+                <a class="button  is-primary">WESPRZYJ NAS</a>
+              </article>
+            </div>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child notification is-success">
+              <div class="content">
+                <p class="title">Twoja prywatna baza adresów</p>
+                <p class="subtitle">Skończ z notanikami i szukaniem adresów po swoich stronach</p>
+                <div class="content">
+                  U nas będziesz mieć wgląd do wszystkich swoich adresów URL. Zobaczysz jak długo aktywny jest Twój link i będziesz mieć prosty dostęp do wszystkich adresów, którychkolwiek uzywałeś. Wszystko uporządkowane i dostępne za jednym kliknięciem.
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+    </div>
+    </section>  
+    {%endif%}  
+    {% endblock %}
+    <footer class="footer is-black">
+      <div class="content has-text-centered">
+        <p>
+        <img src="static/favicon/logo.png"></p>
+            <span class="icon is-large has-text-white is-hoverable">
+            <a class="has-text-white"> <i class="fas fa-2x fa-home"></i></a>
+            </span>
+            <span class="icon is-large has-text-white">
+              <a class="has-text-white"><i class="fab fa-2x fa-facebook"></i></a>
+            </span>
+            <span class="icon is-large has-text-white">
+              <a class="has-text-white"><i class="fas fa-2x fa-envelope"></i></a>
+            </span>
+            <p>
+              <a class="has-text-white is-hovered">Regulamin</a></p>
+             </p><p> <a class="has-text-white is-hovered">O nas</a>
+             </p> <a class="has-text-white is-hovered">Kontakt</a>
+          
+      </div>
+      
+    </footer>
+
+</body>
+
+</html>
